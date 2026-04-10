@@ -38,6 +38,9 @@
       ],
       "@modules-client/*": [
         "src/modules/client/*"
+      ],
+      "@modules-agent/*": [
+        "src/modules/agent/*"
       ]
     },
     "incremental": true,
