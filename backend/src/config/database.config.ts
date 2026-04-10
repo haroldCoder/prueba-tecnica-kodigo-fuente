@@ -8,6 +8,7 @@ export interface DatabaseConfig {
     name: string;
     synchronize: boolean;
     logging: boolean;
+    schema: string;
 }
 
 export default registerAs(
@@ -20,5 +21,6 @@ export default registerAs(
         name: process.env.DB_NAME ?? 'prueba_tecnica',
         synchronize: process.env.DB_SYNC === 'true',
         logging: process.env.DB_LOGGING === 'true',
+        schema: process.env.DB_SCHEMA ?? 'public',
     }),
 );
