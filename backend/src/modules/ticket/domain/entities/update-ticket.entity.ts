@@ -1,8 +1,6 @@
-export interface CreateTicketEntity {
+export interface UpdateTicketEntity {
     title: string;
     description: string;
     status: string;
     priority: string;
-    client_id: number;
-    agent_id: number;
 }

@@ -19,6 +19,7 @@ export const typeOrmAsyncOptions: TypeOrmModuleAsyncOptions = {
             // Rutas donde TypeORM buscará las entidades de cada módulo
             entities: [__dirname + '/../../../**/*.entity{.ts,.js}'],
             autoLoadEntities: true,
+            schema: db.schema
         };
     },
 };

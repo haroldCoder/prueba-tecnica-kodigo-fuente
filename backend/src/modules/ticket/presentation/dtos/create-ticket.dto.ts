@@ -1,7 +1,8 @@
-import { IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateTicketDto {
     @IsString()
+    @IsNotEmpty()
     title: string;
 
     @IsString()
@@ -14,7 +15,8 @@ export class CreateTicketDto {
     priority: string;
 
     @IsNumber()
-    user_id: number;
+    @IsNotEmpty()
+    client_id: number;
 
     @IsNumber()
     agent_id: number;

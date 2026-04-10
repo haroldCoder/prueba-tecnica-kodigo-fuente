@@ -19,7 +19,7 @@ import {
     UpdateTicketUseCase,
 } from '@modules-ticket/aplication/use-cases';
 import { CreateTicketDto, UpdateTicketDto } from '../dtos';
-import { TicketEntity } from '@modules-ticket/domain/entities';
+import { CreateTicketEntity, TicketEntity } from '@modules-ticket/domain/entities';
 import {
     ApiResponse,
 } from '@shared/domain/entities';
@@ -52,6 +52,8 @@ export class TicketController {
             const id = await this.createTicketUseCase.execute(dto);
             return successResponse({ id }, 'Ticket created successfully');
         } catch (error) {
+            console.log(error);
+
             if (error instanceof InternalServerErrorException) throw error;
             throw new InternalServerErrorException(errorResponse('Failed to create ticket'));
         }

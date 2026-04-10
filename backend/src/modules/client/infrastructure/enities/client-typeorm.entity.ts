@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { TicketTypeormEntity } from "@/modules/ticket/infrastructure/entities/ticket-typeorm.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('client')
 export class ClientTypeormEntity {
@@ -10,4 +11,7 @@ export class ClientTypeormEntity {
 
     @Column()
     email: string;
+
+    @OneToMany(() => TicketTypeormEntity, (ticket) => ticket.client)
+    tickets: TicketTypeormEntity[];
 }

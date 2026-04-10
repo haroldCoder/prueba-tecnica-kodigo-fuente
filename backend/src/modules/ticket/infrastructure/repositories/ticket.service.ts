@@ -18,7 +18,9 @@ export class TicketService implements TicketRepository {
 
     async findAll(): Promise<TicketEntity[]> {
         try {
-            const result = await this.ticketRepo.find();
+            const result = await this.ticketRepo.find({
+                relations: ['client', 'agent']
+            });
             return result as TicketEntity[];
         } catch {
             throw new InternalServerErrorException('Failed to retrieve tickets');
@@ -27,7 +29,10 @@ export class TicketService implements TicketRepository {
 
     async findById(id: number): Promise<TicketEntity | null> {
         try {
-            const result = await this.ticketRepo.findOneBy({ id });
+            const result = await this.ticketRepo.findOne({
+                where: { id },
+                relations: ['client', 'agent']
+            });
             if (!result) throw new NotFoundException(`Ticket with id "${id}" not found`);
             return result as TicketEntity;
         } catch (error) {
@@ -38,10 +43,18 @@ export class TicketService implements TicketRepository {
 
     async create(ticket: CreateTicketEntity): Promise<number> {
         try {
-            const entity = this.ticketRepo.create(ticket);
+            const entity = this.ticketRepo.create({
+                title: ticket.title,
+                description: ticket.description,
+                status: ticket.status,
+                priority: ticket.priority,
+                clientId: ticket.client_id,
+                agentId: ticket.agent_id,
+            });
             const result = await this.ticketRepo.save(entity);
             return result.id;
-        } catch {
+        } catch (error) {
+
             throw new InternalServerErrorException('Failed to create ticket');
         }
     }

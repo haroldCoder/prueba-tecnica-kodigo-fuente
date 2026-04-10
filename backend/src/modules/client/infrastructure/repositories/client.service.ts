@@ -9,11 +9,18 @@ export class ClientService implements ClientRepository {
         @InjectRepository(ClientTypeormEntity)
         private readonly clientRepo: Repository<ClientTypeormEntity>
     ) { }
-    create(client: CreateClientEntity): Promise<number> {
+    async create(client: CreateClientEntity): Promise<number> {
         const clientEntity = this.clientRepo.create(client);
-        return this.clientRepo.save(clientEntity).then(client => client.id);
+        const clientSaved = await this.clientRepo.save(clientEntity);
+        return clientSaved.id;
     }
-    findById(id: number): Promise<ClientEntity | null> {
-        return this.clientRepo.findOne({ where: { id } });
+    async findById(id: number): Promise<ClientEntity | null> {
+        const client = await this.clientRepo.findOne({ where: { id } });
+        if (!client) return null;
+        return {
+            id: client.id,
+            name: client.name,
+            email: client.email,
+        };
     }
 }

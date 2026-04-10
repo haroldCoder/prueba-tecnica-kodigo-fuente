@@ -1,7 +1,11 @@
+import { AgentTypeormEntity } from '@modules-agent/infrastructure/entities';
+import { ClientTypeormEntity } from '@modules-client/infrastructure/enities';
 import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
+    ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -24,6 +28,23 @@ export class TicketTypeormEntity {
 
     @Column({ type: 'varchar', length: 50, default: 'open' })
     status: string;
+
+    @Column({ type: 'varchar', length: 50, default: 'low' })
+    priority: string;
+
+    @ManyToOne(() => ClientTypeormEntity, (client) => client.tickets)
+    @JoinColumn({ name: 'client_id' })
+    client: ClientTypeormEntity;
+
+    @ManyToOne(() => AgentTypeormEntity, (agent) => agent.tickets)
+    @JoinColumn({ name: 'agent_id' })
+    agent: AgentTypeormEntity;
+
+    @Column({ name: 'client_id' })
+    clientId: number;
+
+    @Column({ name: 'agent_id' })
+    agentId: number;
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
