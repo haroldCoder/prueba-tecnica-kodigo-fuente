@@ -32,6 +32,9 @@
       ],
       "@config/*": [
         "src/config/*"
+      ],
+      "@modules-ticket/*": [
+        "src/modules/ticket/*"
       ]
     },
     "incremental": true,
