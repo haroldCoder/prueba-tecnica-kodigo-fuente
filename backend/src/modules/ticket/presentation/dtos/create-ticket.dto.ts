@@ -1,4 +1,5 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { PriorityEnum, StatusEnum } from "@modules-ticket/domain/enums";
 
 export class CreateTicketDto {
     @IsString()
@@ -8,11 +9,11 @@ export class CreateTicketDto {
     @IsString()
     description: string;
 
-    @IsEnum(['Open', 'In Progress', 'Closed'])
-    status: string;
+    @IsEnum(StatusEnum)
+    status: StatusEnum;
 
-    @IsEnum(['Low', 'Medium', 'High', 'Critical'])
-    priority: string;
+    @IsEnum(PriorityEnum)
+    priority: PriorityEnum;
 
     @IsNumber()
     @IsNotEmpty()

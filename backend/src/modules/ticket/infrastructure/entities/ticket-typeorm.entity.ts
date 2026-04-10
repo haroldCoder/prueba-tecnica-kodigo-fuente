@@ -23,10 +23,10 @@ export class TicketTypeormEntity {
     @Column({ type: 'varchar', length: 255 })
     title: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     description: string;
 
-    @Column({ type: 'varchar', length: 50, default: 'open' })
+    @Column({ type: 'varchar', length: 50, default: 'open', nullable: true })
     status: string;
 
     @Column({ type: 'varchar', length: 50, default: 'low' })
@@ -43,7 +43,7 @@ export class TicketTypeormEntity {
     @Column({ name: 'client_id' })
     clientId: number;
 
-    @Column({ name: 'agent_id' })
+    @Column({ name: 'agent_id', nullable: true })
     agentId: number;
 
     @CreateDateColumn({ name: 'created_at' })

@@ -1,9 +1,10 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTicketEntity, TicketEntity } from '@modules-ticket/domain/entities';
 import { TicketRepository } from '@modules-ticket/domain/repositories';
 import { TicketTypeormEntity } from '../entities/ticket-typeorm.entity';
+import { StatusEnum } from '../../domain/enums';
 
 /**
  * @description Implementación del repositorio de tickets usando TypeORM.
@@ -42,43 +43,27 @@ export class TicketService implements TicketRepository {
     }
 
     async create(ticket: CreateTicketEntity): Promise<number> {
-        try {
-            const entity = this.ticketRepo.create({
-                title: ticket.title,
-                description: ticket.description,
-                status: ticket.status,
-                priority: ticket.priority,
-                clientId: ticket.client_id,
-                agentId: ticket.agent_id,
-            });
-            const result = await this.ticketRepo.save(entity);
-            return result.id;
-        } catch (error) {
-
-            throw new InternalServerErrorException('Failed to create ticket');
-        }
+        const entity = this.ticketRepo.create({
+            ...ticket,
+            clientId: ticket.client_id,
+            agentId: ticket.agent_id ?? null,
+        });
+        const result = await this.ticketRepo.save(entity);
+        return result.id;
     }
 
     async update(ticket: TicketEntity): Promise<number> {
-        try {
-            const exists = await this.ticketRepo.findOneBy({ id: ticket.id });
-            if (!exists) throw new NotFoundException(`Ticket with id "${ticket.id}" not found`);
-            await this.ticketRepo.update(ticket.id, ticket);
-            return ticket.id;
-        } catch (error) {
-            if (error instanceof NotFoundException) throw error;
-            throw new InternalServerErrorException('Failed to update ticket');
-        }
+        const exists = await this.ticketRepo.findOneBy({ id: ticket.id });
+        if (!exists) throw new NotFoundException(`Ticket with id "${ticket.id}" not found`);
+
+        if (exists.status === StatusEnum.CLOSED) throw new BadRequestException('Ticket is closed');
+        await this.ticketRepo.update(ticket.id, ticket);
+        return ticket.id;
     }
 
     async delete(id: number): Promise<void> {
-        try {
-            const exists = await this.ticketRepo.findOneBy({ id });
-            if (!exists) throw new NotFoundException(`Ticket with id "${id}" not found`);
-            await this.ticketRepo.delete(id);
-        } catch (error) {
-            if (error instanceof NotFoundException) throw error;
-            throw new InternalServerErrorException('Failed to delete ticket');
-        }
+        const exists = await this.ticketRepo.findOneBy({ id });
+        if (!exists) throw new NotFoundException(`Ticket with id "${id}" not found`);
+        await this.ticketRepo.delete(id);
     }
 }

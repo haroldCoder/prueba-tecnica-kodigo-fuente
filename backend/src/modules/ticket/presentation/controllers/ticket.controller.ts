@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Delete,
@@ -48,12 +49,14 @@ export class TicketController {
     async create(
         @Body() dto: CreateTicketDto,
     ): Promise<ApiResponse<{ id: number }>> {
+        if (!dto.client_id) throw new BadRequestException('Client ID is required');
+        if (!dto.title) throw new BadRequestException('Title is required');
+        if (!dto.priority) throw new BadRequestException('Priority is required');
+
         try {
             const id = await this.createTicketUseCase.execute(dto);
             return successResponse({ id }, 'Ticket created successfully');
         } catch (error) {
-            console.log(error);
-
             if (error instanceof InternalServerErrorException) throw error;
             throw new InternalServerErrorException(errorResponse('Failed to create ticket'));
         }
@@ -98,6 +101,7 @@ export class TicketController {
             return successResponse({ id: updatedId }, 'Ticket updated successfully');
         } catch (error) {
             if (error instanceof NotFoundException) throw error;
+            if (error instanceof BadRequestException) throw error;
             if (error instanceof InternalServerErrorException) throw error;
             throw new InternalServerErrorException(errorResponse('Failed to update ticket'));
         }
