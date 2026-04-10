@@ -35,6 +35,9 @@
       ],
       "@modules-ticket/*": [
         "src/modules/ticket/*"
+      ],
+      "@modules-client/*": [
+        "src/modules/client/*"
       ]
     },
     "incremental": true,

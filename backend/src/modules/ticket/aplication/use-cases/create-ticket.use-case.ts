@@ -4,7 +4,7 @@ import { TicketRepository } from '@modules-ticket/domain/repositories';
 export class CreateTicketUseCase {
     constructor(private readonly ticketRepository: TicketRepository) { }
 
-    async execute(ticket: CreateTicketEntity): Promise<string> {
+    async execute(ticket: CreateTicketEntity): Promise<number> {
         return this.ticketRepository.create(ticket);
     }
 }

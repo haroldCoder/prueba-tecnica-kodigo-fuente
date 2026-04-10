@@ -11,10 +11,10 @@ import {
  * Se pone en la carpeta infrastructure porque es una entidad externa, de typeorm.
  */
 
-@Entity('tickets')
+@Entity('ticket')
 export class TicketTypeormEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     title: string;

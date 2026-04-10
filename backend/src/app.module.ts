@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import databaseConfig from '@config/database.config';
 import { DatabaseModule } from '@shared/infrastructure/database/database.module';
 import { TicketModule } from '@modules-ticket/ticket.module';
+import { ClientModule } from '@modules-client/client.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TicketModule } from '@modules-ticket/ticket.module';
     }),
     DatabaseModule,
     TicketModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -25,7 +25,7 @@ export class TicketService implements TicketRepository {
         }
     }
 
-    async findById(id: string): Promise<TicketEntity | null> {
+    async findById(id: number): Promise<TicketEntity | null> {
         try {
             const result = await this.ticketRepo.findOneBy({ id });
             if (!result) throw new NotFoundException(`Ticket with id "${id}" not found`);
@@ -36,7 +36,7 @@ export class TicketService implements TicketRepository {
         }
     }
 
-    async create(ticket: CreateTicketEntity): Promise<string> {
+    async create(ticket: CreateTicketEntity): Promise<number> {
         try {
             const entity = this.ticketRepo.create(ticket);
             const result = await this.ticketRepo.save(entity);
@@ -46,7 +46,7 @@ export class TicketService implements TicketRepository {
         }
     }
 
-    async update(ticket: TicketEntity): Promise<string> {
+    async update(ticket: TicketEntity): Promise<number> {
         try {
             const exists = await this.ticketRepo.findOneBy({ id: ticket.id });
             if (!exists) throw new NotFoundException(`Ticket with id "${ticket.id}" not found`);
@@ -58,7 +58,7 @@ export class TicketService implements TicketRepository {
         }
     }
 
-    async delete(id: string): Promise<void> {
+    async delete(id: number): Promise<void> {
         try {
             const exists = await this.ticketRepo.findOneBy({ id });
             if (!exists) throw new NotFoundException(`Ticket with id "${id}" not found`);

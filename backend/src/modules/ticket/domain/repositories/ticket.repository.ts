@@ -7,8 +7,8 @@ import { CreateTicketEntity, TicketEntity } from "@modules-ticket/domain/entitie
 
 export interface TicketRepository {
     findAll(): Promise<TicketEntity[]>;
-    findById(id: string): Promise<TicketEntity | null>;
-    create(ticket: CreateTicketEntity): Promise<string>;
-    update(ticket: TicketEntity): Promise<string>;
-    delete(id: string): Promise<void>;
+    findById(id: number): Promise<TicketEntity | null>;
+    create(ticket: CreateTicketEntity): Promise<number>;
+    update(ticket: TicketEntity): Promise<number>;
+    delete(id: number): Promise<void>;
 }

@@ -47,7 +47,7 @@ export class TicketController {
     @HttpCode(HttpStatus.CREATED)
     async create(
         @Body() dto: CreateTicketDto,
-    ): Promise<ApiResponse<{ id: string }>> {
+    ): Promise<ApiResponse<{ id: number }>> {
         try {
             const id = await this.createTicketUseCase.execute(dto);
             return successResponse({ id }, 'Ticket created successfully');
@@ -70,7 +70,7 @@ export class TicketController {
 
     @Get(':id')
     async findById(
-        @Param('id') id: string,
+        @Param('id') id: number,
     ): Promise<ApiResponse<TicketEntity>> {
         try {
             const ticket = await this.findTicketUseCase.execute(id);
@@ -85,9 +85,9 @@ export class TicketController {
 
     @Put(':id')
     async update(
-        @Param('id') id: string,
+        @Param('id') id: number,
         @Body() dto: UpdateTicketDto,
-    ): Promise<ApiResponse<{ id: string }>> {
+    ): Promise<ApiResponse<{ id: number }>> {
         try {
             const updatedId = await this.updateTicketUseCase.execute({
                 ...dto,
@@ -103,7 +103,7 @@ export class TicketController {
 
     @Delete(':id')
     @HttpCode(HttpStatus.OK)
-    async delete(@Param('id') id: string): Promise<ApiResponse<null>> {
+    async delete(@Param('id') id: number): Promise<ApiResponse<null>> {
         try {
             await this.deleteTicketUseCase.execute(id);
             return successResponse(null, 'Ticket deleted successfully');
