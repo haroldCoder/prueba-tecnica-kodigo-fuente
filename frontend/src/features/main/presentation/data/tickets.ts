@@ -7,6 +7,8 @@ export const ticketsData: TicketTableModel[] = [
         description: "No se puede iniciar sesión con Google",
         status: "Abierto",
         priority: "Alta",
+        client: "Juan Perez",
+        agent: "Agente Smith",
     },
     {
         id: 2,
@@ -14,5 +16,7 @@ export const ticketsData: TicketTableModel[] = [
         description: "Agregar exportación a PDF",
         status: "En proceso",
         priority: "Media",
+        client: "Maria Lopez",
+        agent: "Agente 007",
     },
 ];

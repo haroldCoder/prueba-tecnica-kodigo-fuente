@@ -4,4 +4,6 @@ export interface TicketTableModel {
     description: string;
     status: string;
     priority: string;
+    client: string;
+    agent: string;
 }

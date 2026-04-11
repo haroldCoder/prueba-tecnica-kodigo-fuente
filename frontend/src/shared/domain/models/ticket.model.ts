@@ -1,4 +1,6 @@
 import type { PriorityTicketEnum, StatusTicketEnum } from "@shared/domain/enums"
+import type { ClientModel } from "./client.model"
+import type { AgentModel } from "./agent.model"
 
 export interface TicketModel { /* Recreamos los modelos igual como estan en la base de datos */
     id: number
@@ -7,5 +9,7 @@ export interface TicketModel { /* Recreamos los modelos igual como estan en la b
     status: StatusTicketEnum
     priority: PriorityTicketEnum
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date,
+    client: ClientModel
+    agent?: AgentModel
 }

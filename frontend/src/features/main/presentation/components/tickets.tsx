@@ -17,7 +17,7 @@ export const Tickets = () => {
     const [view, setView] = useState<'list' | 'create' | 'update'>('list');
     const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
 
-    const [dataTickets, setDataTickets] = useState(data ?? ticketsData);
+    const [dataTickets, setDataTickets] = useState<TicketTableModel[]>(ticketsData);
 
     const handleEdit = (id: number) => {
         setSelectedTicketId(id);
@@ -26,7 +26,11 @@ export const Tickets = () => {
 
     useEffect(() => {
         if (data) {
-            setDataTickets(data);
+            setDataTickets(data.map(t => ({
+                ...t,
+                client: t.client.name,
+                agent: t.agent?.name || "-",
+            })));
         }
     }, [data, refetch]);
 
@@ -54,6 +58,14 @@ export const Tickets = () => {
         {
             accessorKey: "priority",
             header: "Prioridad",
+        },
+        {
+            accessorKey: "client",
+            header: "Cliente",
+        },
+        {
+            accessorKey: "agent",
+            header: "Agente",
         },
         {
             id: "actions",
