@@ -6,9 +6,10 @@ import { Spinner } from "@/shared/ui/components/spinner";
 interface ActionsTableTicketsProps {
     onEdit: () => void;
     id_ticket: number;
+    is_update_available?: boolean;
 }
 
-export const ActionsTableTickets = ({ onEdit, id_ticket }: ActionsTableTicketsProps) => {
+export const ActionsTableTickets = ({ onEdit, id_ticket, is_update_available = true }: ActionsTableTicketsProps) => {
     const { deleteTicket, isPending, error } = useDeleteTicket(id_ticket);
 
     const onDelete = () => {
@@ -24,12 +25,18 @@ export const ActionsTableTickets = ({ onEdit, id_ticket }: ActionsTableTicketsPr
 
     return (
         <div className="flex items-center space-x-2">
-            <button
-                className="p-1.5 hover:bg-brandBlue-50 rounded-md text-brandBlue-600 transition-colors cursor-pointer"
-                onClick={onEdit}
-            >
-                <Pencil className="h-4 w-4" />
-            </button>
+            {is_update_available ? (
+                <button
+                    className="p-1.5 hover:bg-brandBlue-50 rounded-md text-brandBlue-600 transition-colors cursor-pointer"
+                    onClick={onEdit}
+                >
+                    <Pencil className="h-4 w-4" />
+                </button>
+            ) : (
+                <div className="w-7">
+
+                </div>
+            )}
 
             <AlertDialog>
                 <AlertDialogTrigger asChild>

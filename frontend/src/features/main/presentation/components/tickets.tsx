@@ -10,12 +10,19 @@ import { CreateTicket } from "./create-ticket";
 import { UpdateTicket } from "./update-ticket";
 import { useFetchTickets } from "@/shared/application/hooks";
 import { Spinner } from "@/shared/ui/components/spinner";
+import { StatusTicketEnum } from "@/shared/domain/enums";
 
 export const Tickets = () => {
     const { data, isLoading, error, refetch } = useFetchTickets();
     const [view, setView] = useState<'list' | 'create' | 'update'>('list');
+    const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
 
     const [dataTickets, setDataTickets] = useState(data ?? ticketsData);
+
+    const handleEdit = (id: number) => {
+        setSelectedTicketId(id);
+        setView('update');
+    };
 
     useEffect(() => {
         if (data) {
@@ -52,7 +59,7 @@ export const Tickets = () => {
             id: "actions",
             header: "Acciones",
             cell: ({ row }) => (
-                <ActionsTableTickets onEdit={() => setView('update')} id_ticket={row.original.id} />
+                <ActionsTableTickets onEdit={() => handleEdit(row.original.id)} id_ticket={row.original.id} is_update_available={row.original.status !== StatusTicketEnum.CLOSED} />
             ),
         }
     ];
@@ -77,7 +84,9 @@ export const Tickets = () => {
             )}
 
             {view === 'create' && <CreateTicket onCancel={() => setView('list')} />}
-            {view === 'update' && <UpdateTicket onCancel={() => setView('list')} />}
+            {view === 'update' && selectedTicketId && (
+                <UpdateTicket id={selectedTicketId} onCancel={() => setView('list')} />
+            )}
         </div>
     );
 };

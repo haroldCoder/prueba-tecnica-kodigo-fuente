@@ -1,11 +1,15 @@
 import { DiFactory } from "@/shared/factories/di-factory";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UpdateTicketModel } from "@shared/domain/models";
 
-export const useUpdateTicket = (id: number, ticket: UpdateTicketModel) => {
+export const useUpdateTicket = () => {
+    const queryClient = useQueryClient();
     const ticketsRepository = DiFactory.createTicketsRepository();
-    const { data, isPending, error } = useMutation({
-        mutationFn: () => ticketsRepository.updateTicket(id, ticket),
+    const { data, isPending, error, mutateAsync } = useMutation({
+        mutationFn: ({ id, ticket }: { id: number, ticket: UpdateTicketModel }) => ticketsRepository.updateTicket(id, ticket),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tickets"] });
+        },
     });
-    return { data, isPending, error };
+    return { data, isPending, error, updateTicket: mutateAsync };
 }
