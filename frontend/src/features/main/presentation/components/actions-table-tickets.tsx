@@ -1,12 +1,20 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
-export const ActionsTableTickets = () => {
+interface ActionsTableTicketsProps {
+    onEdit: () => void;
+}
+
+export const ActionsTableTickets = ({ onEdit }: ActionsTableTicketsProps) => {
     return (
         <div className="flex items-center space-x-2">
-            <button className="p-1.5 hover:bg-brandBlue-50 rounded-md text-brandBlue-600 transition-colors cursor-pointer">
+            <button
+                className="p-1.5 hover:bg-brandBlue-50 rounded-md text-brandBlue-600 transition-colors cursor-pointer"
+                onClick={onEdit}
+            >
                 <Pencil className="h-4 w-4" />
             </button>
+
             <AlertDialog>
                 <AlertDialogTrigger asChild>
                     <button className="p-1.5 hover:bg-red-50 rounded-md text-red-600 transition-colors cursor-pointer">
