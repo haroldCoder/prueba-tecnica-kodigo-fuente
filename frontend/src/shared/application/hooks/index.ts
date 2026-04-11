@@ -3,3 +3,7 @@ export * from "./use-create-ticket";
 export * from "./use-fetch-ticket-id";
 export * from "./use-update-ticket";
 export * from "./use-delete-ticket";
+export * from "./use-fetch-agents";
+export * from "./use-fetch-clients";
+export * from "./use-create-agent";
+export * from "./use-create-client";
