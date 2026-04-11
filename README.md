@@ -121,3 +121,16 @@ El proyecto cuenta con un flujo de integración y despliegue continuo configurad
 ## 📝 Notas Adicionales
 - El backend utiliza `DB_SYNC=true` en desarrollo para sincronizar automáticamente el esquema de la base de datos con las entidades de TypeORM.
 - El linter del backend ha sido configurado para ser permisivo y respetar el estilo de código existente sin forzar modificaciones automáticas.
+
+---
+
+## 📈 Conclusión y Mejoras
+
+### Conclusión
+Se realizó la prueba técnica satisfactoriamente, logrando cumplir con el MVP propuesto y otras características de software propuestas. Esta prueba técnica reúne las habilidades de cliente y servidor con frameworks modernos, con librerías de alto impacto que ayudan a mejorar la UX/UI del usuario.
+
+### Mejoras Futuras
+- **Separación Visual**: Mejorar la separación de los módulos de manera visual para una navegación más intuitiva.
+- **Paginación**: Agregar paginación a las tablas tanto en el backend como en el frontend para manejar grandes volúmenes de datos.
+- **Estado Global**: Si la aplicación crece, considerar la implementación de **Zustand** o **Redux** para manejar el estado global de forma más eficiente.
+- **Persistencia de Datos**: Explorar la opción de cambiar a **Prisma** en el backend para facilitar el trabajo con bases de datos relacionales y no relacionales de manera más flexible.
