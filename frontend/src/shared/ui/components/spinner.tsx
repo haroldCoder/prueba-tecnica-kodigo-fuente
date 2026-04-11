@@ -8,7 +8,7 @@ interface SpinnerProps {
 
 export const Spinner = ({ className, size = 24 }: SpinnerProps) => {
     return (
-        <div className="flex items-center justify-center p-4">
+        <div className="flex items-center justify-center p-4" data-testid="spinner">
             <Loader2
                 className={cn("animate-spin text-brandBlue-500", className)}
                 size={size}

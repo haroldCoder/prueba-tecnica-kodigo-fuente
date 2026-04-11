@@ -97,7 +97,11 @@ El backend incluye pruebas unitarias para los casos de uso principales.
 
 ### Frontend
 1. Ve al directorio del frontend: `cd frontend`
-2. Ejecuta el linter:
+2. Ejecuta las pruebas:
+   ```bash
+   npm test
+   ```
+3. Ejecuta el linter:
    ```bash
    npm run lint
    ```
