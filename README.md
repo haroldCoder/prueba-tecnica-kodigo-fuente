@@ -80,6 +80,40 @@ Asegúrate de tener instalado **Docker** y **Docker Compose**.
 
 ---
 
+## 🧪 Pruebas y Calidad de Código
+
+### Backend
+El backend incluye pruebas unitarias para los casos de uso principales.
+
+1. Ve al directorio del backend: `cd backend`
+2. Ejecuta las pruebas:
+   ```bash
+   npm test
+   ```
+3. Ejecuta el linter (sin modificar archivos):
+   ```bash
+   npm run lint
+   ```
+
+### Frontend
+1. Ve al directorio del frontend: `cd frontend`
+2. Ejecuta el linter:
+   ```bash
+   npm run lint
+   ```
+
+---
+
+## 🔄 CI/CD (GitHub Actions)
+
+El proyecto cuenta con un flujo de integración y despliegue continuo configurado en `.github/workflows/main.yml`. Este flujo se activa en cada `push` o `pull request` a las ramas `main` o `master` y realiza lo siguiente:
+
+1. **Linting y Testeo**: Asegura que el código cumpla con los estándares y pase todas las pruebas.
+2. **Build de Docker**: Construye imágenes para el cliente y el servidor.
+3. **Publicación**: Sube las imágenes al **GitHub Container Registry (GHCR)**.
+
+---
+
 ## 📝 Notas Adicionales
 - El backend utiliza `DB_SYNC=true` en desarrollo para sincronizar automáticamente el esquema de la base de datos con las entidades de TypeORM.
-- El frontend utiliza datos simulados (mocks) en algunas secciones, integrándose progresivamente con el backend.
+- El linter del backend ha sido configurado para ser permisivo y respetar el estilo de código existente sin forzar modificaciones automáticas.
