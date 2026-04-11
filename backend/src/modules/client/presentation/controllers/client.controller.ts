@@ -1,15 +1,16 @@
 import { errorResponse, successResponse } from "@/shared/domain/constants";
 import { ApiResponse } from "@/shared/domain/entities";
-import { CreateClientUseCase, FindClientUseCase } from "@modules-client/application/use-cases";
+import { CreateClientUseCase, FindAllClientsUseCase, FindClientUseCase } from "@modules-client/application/use-cases";
 import { ClientEntity } from "@modules-client/domain/entities";
 import { CreateClientDto } from "@modules-client/presentation/dtos";
 import { Body, Controller, Get, InternalServerErrorException, NotFoundException, Param, Post } from "@nestjs/common";
 
-@Controller('client')
+@Controller('clients')
 export class ClientController {
     constructor(
         private readonly createClientUseCase: CreateClientUseCase,
-        private readonly findClientUseCase: FindClientUseCase
+        private readonly findClientUseCase: FindClientUseCase,
+        private readonly findAllClientsUseCase: FindAllClientsUseCase
     ) { }
     @Post()
     async create(@Body() client: CreateClientDto): Promise<ApiResponse<number>> {
@@ -29,6 +30,16 @@ export class ClientController {
             if (error instanceof NotFoundException) throw error;
             if (error instanceof InternalServerErrorException) throw error;
             throw new InternalServerErrorException(errorResponse('Failed to retrieve client'));
+        }
+    }
+    @Get()
+    async findAll(): Promise<ApiResponse<ClientEntity[]>> {
+        try {
+            return successResponse(await this.findAllClientsUseCase.execute());
+        } catch (error) {
+            if (error instanceof NotFoundException) throw error;
+            if (error instanceof InternalServerErrorException) throw error;
+            throw new InternalServerErrorException(errorResponse('Failed to retrieve clients'));
         }
     }
 }

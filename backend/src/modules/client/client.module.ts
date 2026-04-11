@@ -4,7 +4,7 @@ import { ClientController } from "./presentation/controllers/client.controller";
 import { ClientService } from "./infrastructure/repositories";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ClientTypeormEntity } from "@modules-client/infrastructure/enities";
-import { CreateClientUseCase, FindClientUseCase } from "@modules-client/application/use-cases";
+import { CreateClientUseCase, FindClientUseCase, FindAllClientsUseCase } from "@modules-client/application/use-cases";
 
 @Module({
     imports: [
@@ -21,6 +21,11 @@ import { CreateClientUseCase, FindClientUseCase } from "@modules-client/applicat
         {
             provide: FindClientUseCase,
             useFactory: (clientRepository: ClientService) => new FindClientUseCase(clientRepository),
+            inject: [ClientService]
+        },
+        {
+            provide: FindAllClientsUseCase,
+            useFactory: (clientRepository: ClientService) => new FindAllClientsUseCase(clientRepository),
             inject: [ClientService]
         }
     ],

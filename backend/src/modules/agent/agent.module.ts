@@ -3,7 +3,7 @@ import { AgentController } from "@modules-agent/presentation/controllers";
 import { AgentService } from "@modules-agent/infrastructure/repositories";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AgentTypeormEntity } from "@modules-agent/infrastructure/entities";
-import { CreateAgentUseCase, FindAgentUseCase } from "@modules-agent/application/use-cases";
+import { CreateAgentUseCase, FindAgentUseCase, FindAllAgentsUseCase } from "@modules-agent/application/use-cases";
 
 @Module({
     imports: [
@@ -20,6 +20,11 @@ import { CreateAgentUseCase, FindAgentUseCase } from "@modules-agent/application
         {
             provide: FindAgentUseCase,
             useFactory: (agentRepository: AgentService) => new FindAgentUseCase(agentRepository),
+            inject: [AgentService]
+        },
+        {
+            provide: FindAllAgentsUseCase,
+            useFactory: (agentRepository: AgentService) => new FindAllAgentsUseCase(agentRepository),
             inject: [AgentService]
         }
     ],

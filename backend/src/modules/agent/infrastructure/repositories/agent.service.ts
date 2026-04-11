@@ -18,4 +18,14 @@ export class AgentService implements AgentRepository {
     findById(id: number): Promise<AgentEntity | null> {
         return this.agentRepo.findOne({ where: { id } });
     }
+    async findAll(): Promise<AgentEntity[]> {
+        const agents: AgentEntity[] = await this.agentRepo.find();
+        return agents.map(agent => {
+            return {
+                id: agent.id,
+                name: agent.name,
+                email: agent.email
+            };
+        });
+    }
 }

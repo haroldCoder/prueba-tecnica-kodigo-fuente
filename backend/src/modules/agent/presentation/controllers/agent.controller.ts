@@ -1,16 +1,26 @@
 import { errorResponse, successResponse } from "@/shared/domain/constants";
 import { ApiResponse } from "@/shared/domain/entities";
-import { CreateAgentUseCase, FindAgentUseCase } from "@modules-agent/application/use-cases";
+import { CreateAgentUseCase, FindAgentUseCase, FindAllAgentsUseCase } from "@modules-agent/application/use-cases";
 import { AgentEntity } from "@modules-agent/domain/entities";
 import { CreateAgentDto } from "@modules-agent/presentation/dtos";
 import { Body, Controller, Get, InternalServerErrorException, NotFoundException, Param, Post } from "@nestjs/common";
 
-@Controller('agent')
+@Controller('agents')
 export class AgentController {
     constructor(
         private readonly createAgentUseCase: CreateAgentUseCase,
-        private readonly findAgentUseCase: FindAgentUseCase
+        private readonly findAgentUseCase: FindAgentUseCase,
+        private readonly findAllAgentsUseCase: FindAllAgentsUseCase
     ) { }
+    @Get()
+    async findAll(): Promise<ApiResponse<AgentEntity[]>> {
+        try {
+            const agents = await this.findAllAgentsUseCase.execute();
+            return successResponse(agents, 'Agents retrieved successfully');
+        } catch (error) {
+            throw new InternalServerErrorException(errorResponse('Failed to retrieve agents'));
+        }
+    }
     @Post()
     async create(@Body() agent: CreateAgentDto): Promise<ApiResponse<{ id: number }>> {
         try {

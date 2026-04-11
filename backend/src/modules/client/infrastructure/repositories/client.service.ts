@@ -23,4 +23,12 @@ export class ClientService implements ClientRepository {
             email: client.email,
         };
     }
+    async findAll(): Promise<ClientEntity[]> {
+        const clients: ClientEntity[] = await this.clientRepo.find();
+        return clients.map(client => ({
+            id: client.id,
+            name: client.name,
+            email: client.email,
+        }));
+    }
 }
