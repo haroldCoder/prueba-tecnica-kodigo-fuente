@@ -1,11 +1,27 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useDeleteTicket } from "@/shared/application/hooks";
+import { Spinner } from "@/shared/ui/components/spinner";
 
 interface ActionsTableTicketsProps {
     onEdit: () => void;
+    id_ticket: number;
 }
 
-export const ActionsTableTickets = ({ onEdit }: ActionsTableTicketsProps) => {
+export const ActionsTableTickets = ({ onEdit, id_ticket }: ActionsTableTicketsProps) => {
+    const { deleteTicket, isPending, error } = useDeleteTicket(id_ticket);
+
+    const onDelete = () => {
+        deleteTicket();
+    };
+
+    if (isPending) return (
+        <section className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center py-8">
+            <Spinner size={20} />
+        </section>
+    );
+    if (error) return <div className="text-red-600">Error: {error.message}</div>;
+
     return (
         <div className="flex items-center space-x-2">
             <button
@@ -30,7 +46,7 @@ export const ActionsTableTickets = ({ onEdit }: ActionsTableTicketsProps) => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
-                        <AlertDialogAction className="bg-red-600 hover:bg-red-700 text-white cursor-pointer border-none">
+                        <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700 text-white cursor-pointer border-none">
                             Eliminar
                         </AlertDialogAction>
                     </AlertDialogFooter>

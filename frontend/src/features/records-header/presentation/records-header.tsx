@@ -1,4 +1,4 @@
-import { StatusTicketEnum } from "@/shared/domain/enums";
+import { PriorityTicketEnum, StatusTicketEnum } from "@/shared/domain/enums";
 import { StatCard } from "@features/records-header/presentation/components";
 import { tickets } from "@features/records-header/presentation/data";
 import { useFetchTickets } from "@shared/application/hooks";
@@ -39,6 +39,13 @@ export const RecordsHeader = () => {
                     colorLabel="text-gray-600"
                     number={dataTickets.filter((ticket) => ticket.status === StatusTicketEnum.IN_PROGRESS).length}
                     label="En Proceso"
+                />
+                <StatCard
+                    color="bg-red-400"
+                    colorNumber="text-red-800"
+                    colorLabel="text-red-800"
+                    number={dataTickets.filter((ticket) => ticket.priority === PriorityTicketEnum.CRITICAL).length}
+                    label="Critico"
                 />
                 <StatCard
                     color="bg-green-600"

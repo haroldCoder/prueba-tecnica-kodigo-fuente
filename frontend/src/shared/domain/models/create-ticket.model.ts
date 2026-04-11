@@ -5,6 +5,6 @@ export interface CreateTicketModel {
     description?: string
     status?: StatusTicketEnum
     priority: PriorityTicketEnum,
-    client_id: string
-    agent_id?: string
+    client_id: number
+    agent_id?: number
 }

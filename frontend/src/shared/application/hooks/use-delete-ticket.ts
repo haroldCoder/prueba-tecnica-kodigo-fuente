@@ -1,10 +1,14 @@
 import { DiFactory } from "@/shared/factories/di-factory";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteTicket = (id: number) => {
+    const queryClient = useQueryClient();
     const ticketsRepository = DiFactory.createTicketsRepository();
-    const { data, isPending, error } = useMutation({
+    const { mutate, isPending, error } = useMutation({
         mutationFn: () => ticketsRepository.deleteTicket(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tickets"] });
+        },
     });
-    return { data, isPending, error };
+    return { deleteTicket: mutate, isPending, error };
 }

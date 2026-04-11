@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/shared/ui/components/data-table";
 import { ticketsData } from "@/features/main/presentation/data";
@@ -8,9 +8,28 @@ import { Button } from "@/components/ui/button";
 import { ActionsTableTickets } from "./actions-table-tickets";
 import { CreateTicket } from "./create-ticket";
 import { UpdateTicket } from "./update-ticket";
+import { useFetchTickets } from "@/shared/application/hooks";
+import { Spinner } from "@/shared/ui/components/spinner";
 
 export const Tickets = () => {
+    const { data, isLoading, error, refetch } = useFetchTickets();
     const [view, setView] = useState<'list' | 'create' | 'update'>('list');
+
+    const [dataTickets, setDataTickets] = useState(data ?? ticketsData);
+
+    useEffect(() => {
+        if (data) {
+            setDataTickets(data);
+        }
+    }, [data, refetch]);
+
+    if (isLoading) return (
+        <section className="w-full flex justify-center py-8">
+            <Spinner size={40} />
+        </section>
+    );
+
+    if (error) return <div className="w-full flex justify-center py-8 text-red-600">Error: {error.message}</div>;
 
     const columns: ColumnDef<TicketTableModel>[] = [
         {
@@ -32,8 +51,8 @@ export const Tickets = () => {
         {
             id: "actions",
             header: "Acciones",
-            cell: () => (
-                <ActionsTableTickets onEdit={() => setView('update')} />
+            cell: ({ row }) => (
+                <ActionsTableTickets onEdit={() => setView('update')} id_ticket={row.original.id} />
             ),
         }
     ];
@@ -44,7 +63,7 @@ export const Tickets = () => {
             {view === 'list' && (
                 <div className="w-full flex mt-6 flex-col items-center">
                     <div className="w-full max-w-5xl">
-                        <DataTable columns={columns} data={ticketsData} />
+                        <DataTable columns={columns} data={dataTickets as TicketTableModel[]} />
                     </div>
                     <div className="w-full max-w-5xl mt-6 flex justify-end mb-4">
                         <Button

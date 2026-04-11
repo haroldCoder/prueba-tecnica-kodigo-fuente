@@ -1,7 +1,8 @@
-export const PRIORITY_TICKET_ENUM = {
-    LOW: 'low',
-    MEDIUM: 'medium',
-    HIGH: 'high'
+export const PriorityTicketEnum = {
+    LOW: 'Low',
+    MEDIUM: 'Medium',
+    HIGH: 'High',
+    CRITICAL: 'Critical'
 } as const
 
-export type PriorityTicketEnum = typeof PRIORITY_TICKET_ENUM[keyof typeof PRIORITY_TICKET_ENUM]
+export type PriorityTicketEnum = (typeof PriorityTicketEnum)[keyof typeof PriorityTicketEnum]

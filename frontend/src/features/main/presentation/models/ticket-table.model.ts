@@ -1,5 +1,5 @@
 export interface TicketTableModel {
-    id: string;
+    id: number;
     title: string;
     description: string;
     status: string;
