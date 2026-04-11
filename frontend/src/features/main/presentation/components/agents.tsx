@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/shared/ui/components/data-table";
 import type { AgentTableModel } from "@/features/main/presentation/models";
 import { agentsData } from "@/features/main/presentation/data";
-import { PlusCircle, Pencil } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateAgent } from "./create-agent";
 
