@@ -18,7 +18,7 @@ export class HttpClientsRepository implements ClientsRepository {
     }
 
     async createClient(client: CreateClientModel): Promise<ClientModel> {
-        const response = await fetch(`${API_URL}/client`, {
+        const response = await fetch(`${API_URL}/clients`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(client),

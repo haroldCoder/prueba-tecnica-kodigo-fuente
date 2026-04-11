@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/shared/ui/components/data-table";
 import type { AgentTableModel } from "@/features/main/presentation/models";
-import { agentsData } from "@/features/main/presentation/data";
+import { agentsData as agentsDataLocal } from "@/features/main/presentation/data";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateAgent } from "./create-agent";
+import { useFetchAgents } from "@/shared/application/hooks";
+import { Spinner } from "@/shared/ui/components/spinner";
+import type { AgentModel } from "@/shared/domain/models";
 
 const columns: ColumnDef<AgentTableModel>[] = [
     {
@@ -20,6 +23,21 @@ const columns: ColumnDef<AgentTableModel>[] = [
 
 export const Agents = () => {
     const [view, setView] = useState<'list' | 'create'>('list');
+    const { data: agents, isLoading, error } = useFetchAgents();
+    const [agentsData, setAgentsData] = useState<AgentModel[]>(agentsDataLocal as AgentModel[]);
+
+    useEffect(() => {
+        if (agents) {
+            setAgentsData(agents);
+        }
+    }, [agents]);
+
+    if (isLoading) return (
+        <section className="w-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center py-8">
+            <Spinner size={20} />
+        </section>
+    );
+    if (error) return <div className="text-red-600">Error: {error.message}</div>;
 
     return (
         <div className="p-6">

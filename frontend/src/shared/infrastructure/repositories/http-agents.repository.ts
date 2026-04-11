@@ -18,7 +18,7 @@ export class HttpAgentsRepository implements AgentsRepository {
     }
 
     async createAgent(agent: CreateAgentModel): Promise<AgentModel> {
-        const response = await fetch(`${API_URL}/agent`, {
+        const response = await fetch(`${API_URL}/agents`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(agent),
