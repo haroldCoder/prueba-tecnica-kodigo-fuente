@@ -3,9 +3,10 @@ import { DataTable } from "@/shared/ui/components/data-table";
 import { ticketsData } from "@/features/main/presentation/data";
 import type { TicketTableModel } from "@/features/main/presentation/models";
 
-import { Pencil, Trash2 } from "lucide-react";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ActionsTableTickets } from "./actions-table-tickets";
+
 
 const columns: ColumnDef<TicketTableModel>[] = [
     {
@@ -29,18 +30,12 @@ const columns: ColumnDef<TicketTableModel>[] = [
         header: "Acciones",
         cell: () => {
             return (
-                <div className="flex items-center space-x-2">
-                    <button className="p-1.5 hover:bg-brandBlue-50 rounded-md text-brandBlue-600 transition-colors cursor-pointer">
-                        <Pencil className="h-4 w-4" />
-                    </button>
-                    <button className="p-1.5 hover:bg-red-50 rounded-md text-red-600 transition-colors cursor-pointer">
-                        <Trash2 className="h-4 w-4" />
-                    </button>
-                </div>
+                <ActionsTableTickets />
             );
         },
     }
 ];
+
 
 export const Tickets = () => {
     return (
