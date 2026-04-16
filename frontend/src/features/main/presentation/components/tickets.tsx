@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/shared/ui/components/data-table";
 import { ticketsData } from "@/features/main/presentation/data";
 import type { TicketTableModel } from "@/features/main/presentation/models";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ActionsTableTickets } from "./actions-table-tickets";
 import { CreateTicket } from "./create-ticket";
@@ -17,22 +17,21 @@ export const Tickets = () => {
     const [view, setView] = useState<'list' | 'create' | 'update'>('list');
     const [selectedTicketId, setSelectedTicketId] = useState<number | null>(null);
 
-    const [dataTickets, setDataTickets] = useState<TicketTableModel[]>(ticketsData);
-
     const handleEdit = (id: number) => {
         setSelectedTicketId(id);
         setView('update');
     };
 
-    useEffect(() => {
+    const dataTickets = useMemo(() => {
         if (data) {
-            setDataTickets(data.map(t => ({
+            return data.map(t => ({
                 ...t,
                 client: t.client.name,
                 agent: t.agent?.name || "-",
-            })));
+            }));
         }
-    }, [data, refetch]);
+        return ticketsData;
+    }, [data]);
 
     if (isLoading) return (
         <section className="w-full flex justify-center py-8">
@@ -79,6 +78,7 @@ export const Tickets = () => {
     return (
         <div className="p-6">
             <h2 className="text-2xl font-bold mb-6 text-brandBlue-600">Tickets</h2>
+            <Button className="bg-brandBlue-600 text-white hover:bg-brandBlue-700 cursor-pointer" onClick={() => refetch()}><RefreshCcw className="mr-2 h-4 w-4 text-white" /> Refetch</Button>
             {view === 'list' && (
                 <div className="w-full flex mt-6 flex-col items-center">
                     <div className="w-full max-w-5xl">

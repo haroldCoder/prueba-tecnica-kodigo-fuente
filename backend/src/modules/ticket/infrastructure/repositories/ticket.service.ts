@@ -1,10 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTicketEntity, TicketEntity } from '@modules-ticket/domain/entities';
 import { TicketRepository } from '@modules-ticket/domain/repositories';
 import { TicketTypeormEntity } from '../entities/ticket-typeorm.entity';
-import { StatusEnum } from '../../domain/enums';
 
 /**
  * @description Implementación del repositorio de tickets usando TypeORM.
@@ -53,10 +52,6 @@ export class TicketService implements TicketRepository {
     }
 
     async update(ticket: TicketEntity): Promise<number> {
-        const exists = await this.ticketRepo.findOneBy({ id: ticket.id });
-        if (!exists) throw new NotFoundException(`Ticket with id "${ticket.id}" not found`);
-
-        if (exists.status === StatusEnum.CLOSED) throw new BadRequestException('Ticket is closed');
         await this.ticketRepo.update(ticket.id, ticket);
         return ticket.id;
     }
